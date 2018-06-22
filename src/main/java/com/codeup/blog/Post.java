@@ -1,15 +1,20 @@
 package com.codeup.blog;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
+
+@Entity
+@Table(name = "posts")
 public class Post {
 
+    @Id @GeneratedValue
     private long id;
-    private String body;
+
+    @Column(name = "post_title", nullable = false, length = 100)
     private String title;
 
-
+    @Column(name = "post_body", nullable = false, length = 1000)
+    private String body;
 
     public long getId() {
         return id;
@@ -19,7 +24,7 @@ public class Post {
         this.id = id;
     }
 
-
+    public Post(){};
 
     public Post(String title, String body) {
         this.body = body;

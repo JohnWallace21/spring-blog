@@ -1,5 +1,10 @@
-package com.codeup.blog;
+package com.codeup.blog.controllers;
 
+import com.codeup.blog.models.Post;
+import com.codeup.blog.models.User;
+import com.codeup.blog.repositories.Users;
+import com.codeup.blog.services.PostService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +17,11 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private Users users;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, Users users) {
         this.postService = postService;
+        this.users = users;
     }
 
     @GetMapping("")
@@ -27,6 +34,7 @@ public class PostController {
     @GetMapping("/{id}")
     public String individualPost(@PathVariable long id, Model view) {
         view.addAttribute("post", postService.findOne(id));
+
         return "posts/show";
     }
 
@@ -51,17 +59,15 @@ public class PostController {
     }
 
     @GetMapping("/{id}/edit")
-    public @ResponseBody
-    String edit(@PathVariable long id, Model view) {
-        Post existingPost = postService.findOne(id);
-        view.addAttribute("post", existingPost);
+    public String edit(@PathVariable long id, Model view) {
+        view.addAttribute("post", postService.findOne(id));
         return "posts/edit";
     }
 
 
-    @GetMapping("/{id}/edit")
-    public String showEditForm(@PathVariable long id, Model view) {
-
-       return postService.save(Post post);
+    @PostMapping("/{id}/edit")
+    public String updatePost(@PathVariable long id, @ModelAttribute Post post) {
+        postService.save(post);
+        return "redirect:/posts/" + id;
     }
 }

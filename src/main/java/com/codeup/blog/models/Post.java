@@ -1,6 +1,11 @@
-package com.codeup.blog;
+package com.codeup.blog.models;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 
 @Entity
@@ -16,15 +21,13 @@ public class Post {
     @Column(name = "post_body", nullable = false, length = 1000)
     private String body;
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Post(){};
+
+    public Post(){}
 
     public Post(String title, String body) {
         this.body = body;
@@ -36,6 +39,13 @@ public class Post {
         this.id = id;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -52,5 +62,14 @@ public class Post {
     public void setBody(String body) {
         this.body = body;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 
 }

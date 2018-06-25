@@ -1,4 +1,4 @@
-package com.codeup.blog;
+package com.codeup.blog.controllers;
 
 import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.stereotype.Controller;
